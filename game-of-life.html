@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Conway's Game of Life</title>
+
+    <br />
+    <br />
 
     <link rel="stylesheet" href="game.css" />
 
@@ -26,12 +36,14 @@
 
       <button id="toggle" type="button" class="buttons">Stop</button>
 
+      <br />
+      <hr />
       <select name="patterns" id="patterns">
         <option value=""></option>
         <option value="block">Block</option>
         <option value="blinker">Blinker</option>
         <option value="beacon">Beacon</option>
-    </select>
+      </select>
       <button id="drawPattern" type="button" class="buttons">
         Draw Pattern
       </button>
