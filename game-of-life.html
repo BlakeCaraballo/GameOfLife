@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 
 <html>
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
+    <title>Conway's Game of Life</title>
 
-<meta charset="UTF-8">
+    <link rel="stylesheet" href="game.css" />
 
-<title>Conway's Game of Life</title>
+    <script type="text/javascript" src="game.js"></script>
+  </head>
 
-<link rel="stylesheet" href="game.css">
+  <body class="general">
+    <h1 class="allignment">Conway's Game of Life</h1>
 
-<script type="text/javascript" src="game.js"></script>
+    <p class="allignment">
+      Click on cells to set them alive and draw patterns. When you're ready,
+      click the 'Start Life' button.
+    </p>
 
-</head>
+    <div class="allignment">
+      <button id="startBtn" type="button" class="buttons">Start Life!</button>
 
-<body class="general">
+      <button id="resetBtn" type="button" class="buttons">Reset</button>
 
-<h1 class="allignment" >Conway's Game of Life</h1>
+      <button id="toggle" type="button" class="buttons">Stop</button>
 
-<p class="allignment" >Click on cells to set them alive and draw patterns. When you're ready, click the 'Start Life' button.</p>
+      <select name="patterns" id="patterns">
+        <option value=""></option>
+        <option value="block">Block</option>
+        <option value="blinker">Blinker</option>
+        <option value="beacon">Beacon</option>
+    </select>
+      <button id="drawPattern" type="button" class="buttons">
+        Draw Pattern
+      </button>
+    </div>
 
-<div class="allignment">
-
-<button id="startBtn" type="button" class="buttons">Start Life!</button>
-
-<button id="resetBtn" type="button" class="buttons">Reset</button>
-
-<button id="toggle" type="button" class="buttons">Stop</button>
-
-</div>
-
-<p></p>
-
-</body>
-
+    <p></p>
+  </body>
 </html>
