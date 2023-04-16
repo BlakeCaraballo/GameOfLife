@@ -1,329 +1,185 @@
-window.onload = function () {
-  function GameTable(w, h) {
-    this.width = w;
+const numRows = 50;
+const numCols = 50;
+let grid = [];
 
-    this.height = h;
-
-    this.htmlGameTable;
-
-    this.cellArray = new Array();
-
-    this.getWidth = getWidth;
-
-    this.getHeight = getHeight;
-
-    this.getCell = getCell;
-
-    this.buildCellObject = buildCellObject;
-
-    this.assignCellToArray = assignCellToArray;
-
-    this.buildGameTable = buildGameTable;
-
-    this.deleteGametable = deleteGametable;
-
-    this.syncDrawingStatusToLife = syncDrawingStatusToLife;
-
-    this.syncLifeStatusToDrawing = syncLifeStatusToDrawing;
-
-    function getWidth() {
-      return this.width;
+// Initialize the grid with empty cells
+function initGrid() {
+  for (let i = 0; i < numRows; i++) {
+    let row = [];
+    for (let j = 0; j < numCols; j++) {
+      row.push(false);
     }
+    grid.push(row);
+  }
+}
 
-    function getHeight() {
-      return this.height;
+// Create cells and add them to the grid
+function renderGrid() {
+    const gridContainer = document.querySelector("#grid");
+    gridContainer.innerHTML = ""; // remove all child elements
+    
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.row = i;
+        cell.dataset.col = j;
+        if (grid[i][j]) {
+          cell.classList.add("alive");
+        }
+        gridContainer.appendChild(cell);
+      }
     }
+  }
 
-    function getCell(width, height) {
-      return this.cellArray[width + "_" + height];
-    }
-
-    function buildCellObject(cellHTMLElement, width, height) {
-      var newCell = new Cell(cellHTMLElement);
-
-      newCell.setID(width, height);
-
-      newCell.setAttribute("id", width + "_" + height);
-
-      newCell.setAttribute("class", "deadcell");
-
-      newCell.addEventListener("click", function myfunc() {
-        if (this.getAttribute("class") == "deadcell") {
-          this.setAttribute("class", "alivecell");
+// Update the cells based on the rules of the game
+function updateGrid() {
+  const newGrid = [];
+  for (let i = 0; i < numRows; i++) {
+    let row = [];
+    for (let j = 0; j < numCols; j++) {
+      const neighbors = countNeighbors(i, j);
+      if (grid[i][j]) {
+        if (neighbors < 2 || neighbors > 3) {
+          row.push(false);
         } else {
-          this.setAttribute("class", "deadcell");
+          row.push(true);
         }
-      });
-
-      return newCell;
-    }
-
-    function assignCellToArray(cell, width, height) {
-      this.cellArray[width + "_" + height] = cell;
-    }
-
-    function buildGameTable() {
-      this.htmlGameTable = document.createElement("table");
-
-      this.htmlGameTable.setAttribute("class", "gametable");
-
-      this.htmlGameTable.setAttribute("id", "gametable");
-
-      for (var i = 0; i < this.width; i++) {
-        var rowHTMLElement = this.htmlGameTable.insertRow(i);
-
-        for (var j = 0; j < this.height; j++) {
-          var cellHTMLElement = rowHTMLElement.insertCell(j);
-
-          var newCell = buildCellObject(cellHTMLElement, i, j);
-
-          this.assignCellToArray(newCell, i, j);
-        }
-      }
-
-      document.body.appendChild(this.htmlGameTable);
-    }
-
-    function deleteGametable() {
-      document.getElementById("gametable").remove();
-    }
-
-    function syncDrawingStatusToLife() {
-      for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-          var currentCell = this.getCell(i, j);
-
-          if (currentCell.isAlive()) {
-            currentCell.setAttribute("class", "alivecell");
-          } else {
-            currentCell.setAttribute("class", "deadcell");
-          }
+      } else {
+        if (neighbors === 3) {
+          row.push(true);
+        } else {
+          row.push(false);
         }
       }
     }
+    newGrid.push(row);
+  }
+  grid = newGrid;
+}
 
-    function syncLifeStatusToDrawing() {
-      for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-          var currentCell = this.getCell(i, j);
-
-          if (currentCell.getAttribute("class") == "alivecell") {
-            currentCell.setAlive(true);
-          } else {
-            currentCell.setAlive(false);
-          }
+// Count the number of live neighbors around a cell
+function countNeighbors(row, col) {
+    let count = 0;
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if (i === 0 && j === 0) {
+          continue;
+        }
+        const r = (row + i + numRows) % numRows;
+        const c = (col + j + numCols) % numCols;
+        if (grid[r][c]) {
+          count++;
         }
       }
     }
-
-    this.buildGameTable();
+    return count;
+  }
+  
+  function setCell(row, col, alive) {
+    const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+    if (alive) {
+      cell.classList.add("alive");
+    } else {
+      cell.classList.remove("alive");
+    }
+    grid[row][col] = alive;
   }
 
-  function Cell(c) {
-    this.element = c;
+// Handle user input
+function initControls() {
+  const startBtn = document.querySelector("#startBtn");
+  const pauseBtn = document.querySelector("#pauseBtn");
+  const patternSelect = document.querySelector("#patternSelect");
+  const resetBtn = document.querySelector("#resetBtn");
+  const randomBtn = document.querySelector("#randomBtn");
 
-    this.row;
+  startBtn.addEventListener("click", startGame);
+  pauseBtn.addEventListener("click", pauseGame);
+  patternSelect.addEventListener("change", selectPattern);
+  resetBtn.addEventListener("click", resetGame);
+  randomBtn.addEventListener("click", randomizeGrid);
+}
 
-    this.column;
-
-    this.alive = false;
-
-    this.generation = 0;
-
-    this.setID = setID;
-
-    this.setAttribute = setAttribute;
-
-    this.getAttribute = getAttribute;
-
-    this.addEventListener = addEventListener;
-
-    this.setAlive = setAlive;
-
-    this.isAlive = isAlive;
-
-    this.getNumberOfNeighbours = getNumberOfNeighbours;
-
-    this.getNeighborCoords = getNeighborCoords;
-
-    this.isNeighbourAlive = isNeighbourAlive;
-
-    function setAttribute(attribute, value) {
-      this.element.setAttribute(attribute, value);
-    }
-
-    function getAttribute(attribute) {
-      return this.element.getAttribute(attribute);
-    }
-
-    function addEventListener(action, func) {
-      this.element.addEventListener(action, func);
-    }
-
-    function setID(row, col) {
-      this.row = row;
-
-      this.column = col;
-    }
-
-    function setAlive(isAlive) {
-      this.alive = isAlive;
-    }
-
-    function isAlive() {
-      return this.alive;
-    }
-
-    function getNumberOfNeighbours(table) {
-      var num = 0;
-
-      var neighborCoords = this.getNeighborCoords();
-
-      for (var i = 0; i < neighborCoords.length; i += 2) {
-        if (this.isNeighbourAlive(i, neighborCoords, table)) {
-          num++;
+// Start the game loop
+let intervalId;
+let isRunning = false;
+function startGame() {
+    if(isRunning){
+        return;
         }
-      }
+  intervalId = setInterval(() => {  
+    updateGrid();
+    renderGrid();
+}, 100);
+}
 
-      return num;
-    }
-
-    function getNeighborCoords() {
-      var neighborCoords = new Array();
-
-      neighborCoords[0] = this.row - 1; // top row
-
-      neighborCoords[1] = this.column; // top col
-
-      neighborCoords[2] = this.row + 1; // bottom row
-
-      neighborCoords[3] = this.column; // bottom col
-
-      neighborCoords[4] = this.row; // left row
-
-      neighborCoords[5] = this.column - 1; // left col
-
-      neighborCoords[6] = this.row; // right row
-
-      neighborCoords[7] = this.column + 1; // right col
-
-      neighborCoords[8] = this.row - 1; // top left row
-
-      neighborCoords[9] = this.column - 1; // top left col
-
-      neighborCoords[10] = this.row - 1; // top right row
-
-      neighborCoords[11] = this.column + 1; // top right col
-
-      neighborCoords[12] = this.row + 1; // bottom left row
-
-      neighborCoords[13] = this.column - 1; // bottom left col
-
-      neighborCoords[14] = this.row + 1; // bottom right row
-
-      neighborCoords[15] = this.column + 1; // bottom right col
-
-      return neighborCoords;
-    }
-
-    function isNeighbourAlive(index, coords, table) {
-      var dir_r = coords[index];
-
-      var dir_c = coords[index + 1];
-
-      if (
-        dir_r < 0 ||
-        dir_c < 0 ||
-        dir_r > table.getWidth() - 1 ||
-        dir_c > table.getHeight() - 1
-      ) {
-        return false;
-      }
-
-      if (table.getCell(dir_r, dir_c).getAttribute("class") == "alivecell") {
-        return true;
-      }
-
-      return false;
-    }
-  }
-
-  function LifeGen(w, h) {
-    this.width = w;
-
-    this.height = h;
-
-    this.theTable = new GameTable(w, h);
-
-    this.lifeAndDeath = lifeAndDeath;
-
-    function lifeAndDeath() {
-      this.theTable.syncDrawingStatusToLife();
-
-      for (var i = 0; i < this.width; i++) {
-        for (var j = 0; j < this.height; j++) {
-          var currentCell = this.theTable.getCell(i, j);
-
-          var nOn = currentCell.getNumberOfNeighbours(this.theTable);
-
-          if (currentCell.isAlive()) {
-            if (nOn < 2) {
-              currentCell.setAlive(false);
-            } else if (nOn == 2 || nOn == 3) {
-              currentCell.generation++;
-            } else {
-              currentCell.setAlive(false);
-            }
-          } else {
-            if (nOn == 3) {
-              currentCell.setAlive(true);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  var gametableWidth = 20;
-
-  var gametableHeight = 45;
-
-  var generator = new LifeGen(gametableWidth, gametableHeight);
-
-  var intervalId;
-
-  var startBtnListener = function () {
-    generator.theTable.syncLifeStatusToDrawing();
-
-    intervalId = setInterval(function () {
-      generator.lifeAndDeath();
-    }, 500);
-
-    this.setAttribute("disabled", true);
-  };
-
-  var resetBtnListener = function () {
-    generator.theTable.deleteGametable();
-
+// Pause the game loop
+function pauseGame() {
+    isRunning = false;
     clearInterval(intervalId);
+}
 
-    document.getElementById("startBtn").removeAttribute("disabled");
+// Select a predefined pattern
+function selectPattern(event) {
+    const pattern = event.target.value;
+    if (pattern === "blank") {
+      return;
+    }
+    pauseGame();
+    
+    switch (pattern) {
+      case "blinker":
+        grid[23][24] = true;
+        grid[24][24] = true;
+        grid[25][24] = true;
+        break;
+      case "block":
+        grid[24][24] = true;
+        grid[24][25] = true;
+        grid[25][24] = true;
+        grid[25][25] = true;
+        break;
+      case "boat":
+        grid[23][24] = true;
+        grid[24][24] = true;
+        grid[25][25] = true;
+        grid[25][23] = true;
+        grid[24][22] = true;
+        break;
+    }
+    renderGrid();
+  }
 
-    generator = new LifeGen(gametableWidth, gametableHeight);
-  };
+// Reset the game to an empty grid
+function resetGame() {
+    pauseGame();
+    grid = [];
+    initGrid();
+    renderGrid();
+  }
 
-  var stopBtnListener = function () {
-    clearInterval(intervalId);
-    running = false();
-  };
+  function randomizeGrid() {
+    // Clear the existing grid
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        grid[i][j] = false;
+      }
+    }
+  
+    // Randomly set some cells to be alive
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
+        if (Math.random() > 0.5) {
+          grid[i][j] = true;
+        }
+      }
+    }
+  
+    renderGrid();
+  }
 
-  document
-    .getElementById("startBtn")
-    .addEventListener("click", startBtnListener, false);
-
-  document
-    .getElementById("resetBtn")
-    .addEventListener("click", resetBtnListener, false);
-
-  document.getElementById("stopBtn").addEventListener("click", stopBtnListener);
-};
+// Initialize the grid and controls
+initGrid();
+renderGrid();
+initControls();

@@ -1,65 +1,76 @@
-.gametable {
-  border: 2px solid #ff0404;
-
-  border-collapse: collapse;
-
-  margin: auto;
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.deadcell {
-  border: 2px solid #cceeff;
-
-  border-collapse: collapse;
-
-  width: 28px;
-
-  height: 28px;
-
-  background-color: #e6f7ff;
+#grid {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(50, 10px);
+  grid-template-rows: repeat(50, 10px);
 }
 
-.alivecell {
-  border: 2px solid #cceeff;
-
-  border-collapse: collapse;
-
-  width: 28px;
-
-  height: 28px;
-
-  background-color: tan;
+.cell {
+  width: 10px;
+  height: 10px;
+  background-color: #eee;
+  border: 1px solid #ccc;
 }
 
-.general {
+.cell.alive {
+  background-color: #00aaff;
+}
+
+body {
   font-family: "Libre Baskerville", serif;
-
-  background-color: tan;
+  text-align: center;
+  color: yellow;
+  background: rgb(68, 116, 195);
+  background: radial-gradient(
+    circle,
+    rgba(68, 116, 195, 1) 0%,
+    rgba(0, 13, 28, 1) 80%
+  );
 }
 
 .buttons {
-  border-radius: 4px;
-
-  border: none;
-
   font-family: "Libre Baskerville", serif;
-
-  background-color: #00aaff;
-
-  padding: 10px 30px;
-}
-
-.allignment {
-  text-align: center;
-}
-
-#patterns {
-  width: 90px;
-  height: 35px;
+  border-radius: 10px;
   border-color: #00aaff;
-  border-radius: 5px 5px 5px 5px;
+  font-family: "Libre Baskerville", serif;
+  color: yellow;
+  background-color: #00aaff;
+  padding: 5px 25px;
 }
 
-hr {
-  height: 1px;
-  visibility: hidden;
+.select {
+  font-family: "Libre Baskerville", serif;
+  border-radius: 10px;
+}
+
+p {
+  font-size: 30px;
+}
+
+#login{
+  font-size: 70px;
+}
+
+label {
+  font-size: 25px;
+}
+
+input[type=text],
+input[type=password]
+{
+  border-radius: 5px;
+  font-size: 17px;
+  width: 10%;
+}
+
+a {
+  color: yellow;
 }
