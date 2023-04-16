@@ -1,54 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@1&display=swap"
-      rel="stylesheet"
-    />
-
     <title>Conway's Game of Life</title>
-
-    <br />
-    <br />
-
-    <link rel="stylesheet" href="game.css" />
-
-    <script type="text/javascript" src="game.js"></script>
+    <link rel="stylesheet" href="game.css">
   </head>
-
-  <body class="general">
-    <h1 class="allignment">Conway's Game of Life</h1>
-
-    <p class="allignment">
-      Click on cells to set them alive and draw patterns. When you're ready,
-      click the 'Start Life' button.
-    </p>
-
-    <div class="allignment">
-      <button id="startBtn" type="button" class="buttons">Start Life!</button>
-
-      <button id="resetBtn" type="button" class="buttons">Reset</button>
-
-      <button id="toggle" type="button" class="buttons">Stop</button>
-
-      <br />
-      <hr />
-      <select name="patterns" id="patterns">
-        <option value=""></option>
-        <option value="block">Block</option>
+  <body>
+    <h1>Conway's Game of Life</h1>
+    <div id="controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <select id="patternSelect">
+        <option value="blank">Select a pattern</option>
         <option value="blinker">Blinker</option>
-        <option value="beacon">Beacon</option>
+        <option value="block">Block</option>
+        <option value="boat">Boat</option>
       </select>
-      <button id="drawPattern" type="button" class="buttons">
-        Draw Pattern
-      </button>
+      <select id="gridSize">Select Grid Size
+        <option value="50">50x50</option>
+        <option value="80">80x80</option>
+        <option value="100">100x100</option>
+      </select>
+      <button id="resetBtn">Reset</button>
+      <button id="randomBtn">Randomize Grid</button>
     </div>
-
-    <p></p>
+    <div id="grid"></div>
+    <script src="game.js"></script>
   </body>
 </html>

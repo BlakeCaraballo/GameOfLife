@@ -1,65 +1,26 @@
-.gametable {
-  border: 2px solid #ff0404;
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(50, 10px);
+    grid-template-rows: repeat(50, 10px);
+  }
+  
+  .cell {
+    width: 10px;
+    height: 10px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
 
-  border-collapse: collapse;
+  .cell.alive {
+    background-color: #000;
+  }
 
-  margin: auto;
-}
-
-.deadcell {
-  border: 2px solid #cceeff;
-
-  border-collapse: collapse;
-
-  width: 28px;
-
-  height: 28px;
-
-  background-color: #e6f7ff;
-}
-
-.alivecell {
-  border: 2px solid #cceeff;
-
-  border-collapse: collapse;
-
-  width: 28px;
-
-  height: 28px;
-
-  background-color: tan;
-}
-
-.general {
-  font-family: "Libre Baskerville", serif;
-
-  background-color: tan;
-}
-
-.buttons {
-  border-radius: 4px;
-
-  border: none;
-
-  font-family: "Libre Baskerville", serif;
-
-  background-color: #00aaff;
-
-  padding: 10px 30px;
-}
-
-.allignment {
-  text-align: center;
-}
-
-#patterns {
-  width: 90px;
-  height: 35px;
-  border-color: #00aaff;
-  border-radius: 5px 5px 5px 5px;
-}
-
-hr {
-  height: 1px;
-  visibility: hidden;
-}
+ 
