@@ -1,26 +1,51 @@
 #container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
-  #grid {
-    display: grid;
-    grid-template-columns: repeat(50, 10px);
-    grid-template-rows: repeat(50, 10px);
-  }
-  
-  .cell {
-    width: 10px;
-    height: 10px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
 
-  .cell.alive {
-    background-color: #000;
-  }
+#grid {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(50, 10px);
+  grid-template-rows: repeat(50, 10px);
+}
 
- 
+.cell {
+  width: 10px;
+  height: 10px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+}
+
+.cell.alive {
+  background-color: #000;
+}
+
+body {
+  font-family: "Libre Baskerville", serif;
+  text-align: center;
+  color: yellow;
+  background: rgb(68, 116, 195);
+  background: radial-gradient(
+    circle,
+    rgba(68, 116, 195, 1) 0%,
+    rgba(0, 13, 28, 1) 80%
+  );
+}
+
+.buttons {
+  font-family: "Libre Baskerville", serif;
+  border-radius: 10px;
+  border-color: #00aaff;
+  font-family: "Libre Baskerville", serif;
+  background-color: #00aaff;
+  padding: 5px 25px;
+}
+
+.select {
+  font-family: "Libre Baskerville", serif;
+  border-radius: 10px;
+}
