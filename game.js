@@ -142,12 +142,12 @@ function selectPattern(event) {
     }
     pauseGame();
 
-      // Clear the existing grid
+      /* Clear the existing grid
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
       grid[i][j] = false;
     }
-  }
+  }*/
     
     switch (pattern) {
       case "blinker":
@@ -168,6 +168,24 @@ function selectPattern(event) {
         grid[24][23] = true;
         grid[24][24] = true;
         grid[24][25] = true;
+            break;
+        case "octagon2":
+        grid[22][22] = true;
+        grid[22][23] = true;
+        grid[23][21] = true;
+        grid[24][20] = true;
+        grid[25][19] = true;
+        grid[23][24] = true;
+        grid[24][25] = true;
+        grid[25][26] = true;
+        grid[29][22] = true;
+        grid[29][23] = true;
+        grid[28][21] = true;
+        grid[27][20] = true;
+        grid[26][19] = true;
+        grid[28][24] = true;
+        grid[27][25] = true;
+        grid[26][26] = true;
             break;
     }
     renderGrid();
