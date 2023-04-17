@@ -14,6 +14,7 @@
   </head>
   <body>
     <h1>Conway's Game of Life</h1>
+    <div id="generations"></div>
     <div id="controls">
       <button id="startBtn" class="buttons">Start</button>
       <button id="pauseBtn" class="buttons">Pause</button>
@@ -24,14 +25,10 @@
         <option value="blank">Select a pattern</option>
         <option value="blinker">Blinker</option>
         <option value="block">Block</option>
-        <option value="boat">Boat</option>
+        <option value="toad">Toad</option>
       </select>
-      <select id="gridSize" class="select">
-        Select Grid Size
-        <option value="50">50x50</option>
-        <option value="80">80x80</option>
-        <option value="100">100x100</option>
-      </select>
+      <button id="skip1Btn" class="buttons">Skip 1 Generation</button>
+      <button id="skip23Btn" class="buttons">Skip 23 Generations</button>
     </div>
     <br>
     <div id="grid"></div>

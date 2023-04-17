@@ -1,6 +1,7 @@
 const numRows = 50;
 const numCols = 50;
 let grid = [];
+let generations = 0;
 
 // Initialize the grid with empty cells
 function initGrid() {
@@ -30,6 +31,9 @@ function renderGrid() {
         gridContainer.appendChild(cell);
       }
     }
+    const generationsElem = document.querySelector("#generations");
+    generationsElem.textContent = `Generations: ${generations}`;
+    
   }
 
 // Update the cells based on the rules of the game
@@ -56,6 +60,7 @@ function updateGrid() {
     newGrid.push(row);
   }
   grid = newGrid;
+  generations++;
 }
 
 // Count the number of live neighbors around a cell
@@ -93,12 +98,19 @@ function initControls() {
   const patternSelect = document.querySelector("#patternSelect");
   const resetBtn = document.querySelector("#resetBtn");
   const randomBtn = document.querySelector("#randomBtn");
+  const skip1Btn = document.querySelector("#skip1Btn");
+  const skip23Btn = document.querySelector("#skip23Btn");
 
   startBtn.addEventListener("click", startGame);
   pauseBtn.addEventListener("click", pauseGame);
   patternSelect.addEventListener("change", selectPattern);
   resetBtn.addEventListener("click", resetGame);
   randomBtn.addEventListener("click", randomizeGrid);
+  skip1Btn.addEventListener("click", () => {
+    updateGrid();
+    renderGrid();
+  });
+  skip23Btn.addEventListener("click", skip23Generations);
 }
 
 // Start the game loop
@@ -108,10 +120,12 @@ function startGame() {
     if(isRunning){
         return;
         }
+  clearInterval(intervalId);
   intervalId = setInterval(() => {  
     updateGrid();
     renderGrid();
 }, 100);
+isRunning = true;
 }
 
 // Pause the game loop
@@ -127,6 +141,13 @@ function selectPattern(event) {
       return;
     }
     pauseGame();
+
+      // Clear the existing grid
+  for (let i = 0; i < numRows; i++) {
+    for (let j = 0; j < numCols; j++) {
+      grid[i][j] = false;
+    }
+  }
     
     switch (pattern) {
       case "blinker":
@@ -140,13 +161,14 @@ function selectPattern(event) {
         grid[25][24] = true;
         grid[25][25] = true;
         break;
-      case "boat":
+        case "toad":
         grid[23][24] = true;
+        grid[23][25] = true;
+        grid[23][26] = true;
+        grid[24][23] = true;
         grid[24][24] = true;
-        grid[25][25] = true;
-        grid[25][23] = true;
-        grid[24][22] = true;
-        break;
+        grid[24][25] = true;
+            break;
     }
     renderGrid();
   }
@@ -156,7 +178,9 @@ function resetGame() {
     pauseGame();
     grid = [];
     initGrid();
+    generations = 0;
     renderGrid();
+    
   }
 
   function randomizeGrid() {
@@ -177,6 +201,20 @@ function resetGame() {
     }
   
     renderGrid();
+  }
+
+  function skip23Generations() {
+    for (let i = 0; i < 23; i++) {
+      updateGrid();
+    }
+    renderGrid();
+  }
+
+  function skip1Generation(){
+    for (let i = 0; i <= 1; i++) {
+        updateGrid();
+      }
+      renderGrid();
   }
 
 // Initialize the grid and controls
